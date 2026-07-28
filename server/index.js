@@ -25,7 +25,7 @@ app.get('/',(req , res)=>{
 })
 app.use('/api/polls',pollRoutes)
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 httpserver.listen(PORT,()=>{
     console.log(`Livepoll server is running`);
