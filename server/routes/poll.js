@@ -4,7 +4,7 @@ const Poll = require("../models/Poll.js")
 
 //get all polls , newest first
 
-router.get('/', async (req, res) => {
+router.get('/getall', async (req, res) => {
     try {
         const polls = await Poll.find().sort({ createdAt: -1 });
         res.status(200).json(polls)
@@ -33,7 +33,7 @@ router.post('/createpoll', async (req, res) => {
 })
 
 //get single poll
-router.get('/getbyid/:PollId', async (req, res) => {
+router.get('/getbyid/:pollId', async (req, res) => {
     try {
         const { pollId } = req.params;
         const poll = await Poll.findById(pollId)

@@ -23,6 +23,7 @@ const io = new Server(httpserver,{
 });
 
 app.use(express.json());
+app.use(cors(({origin:'*'})))
 app.get('/',(req , res)=>{
     res.json({message:"server is running properly on server"})
 })
