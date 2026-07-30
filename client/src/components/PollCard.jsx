@@ -27,19 +27,23 @@ const PollCard = () => {
     }
   };
 
+
   useEffect(() => {
     fetchPoll();
   }, [id]);
 
   useEffect(()=>{
-    socket.emit('joinPoll',id);
+    socket.emit('joinpoll',id);
 
-    socket.on('pollUpdated',(updatedPoll)=>{
-      setPoll(updatedPoll);
-    });
+    const handlePollUpdated = (updatedPoll) => {
+    console.log("🔥 Updated poll received:", updatedPoll);
+    setPoll(updatedPoll);
+  };
+
+  socket.on("pollupdated", handlePollUpdated);
 
     return ()=>{
-      socket.off('pollUpdated')
+      socket.off('pollupdated')
     }
 
   },[id])

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const Poll = require("../models/Poll.js")
+const Poll = require("../models/Poll.js");
 
 //get all polls , newest first
 
@@ -68,6 +68,12 @@ try {
         poll.totalvotes+=1;
     
         await poll.save();
+
+        const io = req.app.get('io');
+        if (io) {
+            io.to(id).emit('pollupdated', poll);
+        }
+        
         res.status(200).json({
             message:"vote recorded sucessfully",
             poll

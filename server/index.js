@@ -22,8 +22,10 @@ const io = new Server(httpserver,{
 
 });
 
+app.set('io', io);
+
 app.use(express.json());
-app.use(cors(({origin:'*'})))
+app.use(cors({origin:'*'}))
 app.get('/',(req , res)=>{
     res.json({message:"server is running properly on server"})
 })
@@ -38,22 +40,7 @@ io.on('connection',(socket)=>{
     socket.on('joinpoll',(pollId)=>{
         socket.join(pollId)
     })
-    //handle poll submission
-    socket.on('submitvote',async({pollId,optionIndex})=>{
-        try {
-            const poll = await Poll.findById(pollId)
-            if(!poll){
-                return;
-            }
-            poll.options[optionIndex].votes+=1;
-            poll.totalvotes+=1;
-            await poll.save;
-            //broadcast
-            io.to(pollId).emit('pollupdated',poll)
-        } catch (error) {
-            console.log("vote error by socket")
-        }
-    })
+
     //exit poll
     socket.on('disconnect',()=>{
         console.log('client disconnected')
