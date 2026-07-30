@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./PollCard.css";
+import socket from "../socket";
 
 const PollCard = () => {
   const { id } = useParams();
@@ -29,6 +30,19 @@ const PollCard = () => {
   useEffect(() => {
     fetchPoll();
   }, [id]);
+
+  useEffect(()=>{
+    socket.emit('joinPoll',id);
+
+    socket.on('pollUpdated',(updatedPoll)=>{
+      setPoll(updatedPoll);
+    });
+
+    return ()=>{
+      socket.off('pollUpdated')
+    }
+
+  },[id])
 
   const handleVote = async () => {
     if (selectedOption === null || selectedOption === "") {
