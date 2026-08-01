@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./PollCard.css";
 import socket from "../socket";
+import { API_URL } from "../config";
 
 const PollCard = () => {
   const { id } = useParams();
@@ -13,7 +14,7 @@ const PollCard = () => {
   const fetchPoll = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/polls/getbyid/${id}`
+        `${API_URL}/api/polls/getbyid/${id}`
       );
 
       if (!response.ok) {
@@ -64,7 +65,7 @@ const PollCard = () => {
     setIsSubmitting(true);
     try {
       const response = await fetch(
-        `http://localhost:5001/api/polls/vote/${id}`,
+        `${API_URL}/api/polls/vote/${id}`,
         {
           method: "POST",
           headers: {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Homepage.css";
+import { API_URL } from "../config";
 
 const Home = () => {
   const [polls, setPolls] = useState([]);
@@ -9,7 +10,7 @@ const Home = () => {
 
   const fetchPolls = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/polls/getall");
+      const response = await fetch(`${API_URL}/api/polls/getall`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch polls");
